@@ -1,0 +1,7 @@
+{
+  "extends": ["plugin:prettier/recommended"],
+  "rules": {
+    "no-underscore-dangle": "off"
+    },
+  "parser": "babel-eslint"
+ }
