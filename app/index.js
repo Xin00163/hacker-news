@@ -5,6 +5,7 @@ import { ThemeProvider } from './contexts/theme'
 import Nav from "./components/Nav";
 import {
   BrowserRouter as Router} from "react-router-dom";
+import Posts from './components/Posts'; 
 
 class App extends React.Component {
   state = {
@@ -25,6 +26,7 @@ class App extends React.Component {
           </div>
         </div>
       </ThemeProvider>
+      <Posts type='top'/>
       </Router>
     );
   }
