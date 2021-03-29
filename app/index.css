@@ -55,3 +55,12 @@ li {
   background: transparent;
 }
 
+.post {
+  margin: 20px 0;
+}
+
+.postLink {
+  color: rgb(187, 46, 31);
+  text-decoration: none;
+  font-weight: bold;
+}

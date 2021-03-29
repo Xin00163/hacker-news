@@ -1,6 +1,14 @@
 import React, { useReducer } from 'react'
 import {fetchMainPosts} from '../utils/api'
 
+function formatDate (timestamp) {
+  return new Date(timestamp * 1000)
+    .toLocaleDateString("en-GB", {
+      hour: 'numeric' ,
+      minute: 'numeric'
+    })
+}
+
 function fetchReducer(state, action) {
   if(action.type === 'loading') {
     return {
@@ -56,8 +64,15 @@ export default function Posts ({type}) {
     <ul>
       {state.posts.map((post) => {
         return (
-          <li>
-            {post.title}
+          <li key={post.id} className='post'>
+            <a className='postLink' href={post.url}>{post.title}</a>
+            <div className='meta-info-light'>
+              <span>by <a href={post.by}>{post.by}</a></span>
+              <span> on {formatDate(post.time)}</span>
+              {typeof post.descendants === 'number' && (
+                <span> with {post.descendants} comments </span>
+              )}
+            </div>
           </li>
         )
       })}
