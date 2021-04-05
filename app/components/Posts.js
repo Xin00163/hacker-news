@@ -1,13 +1,7 @@
 import React, { useReducer } from 'react'
 import {fetchMainPosts} from '../utils/api'
-
-function formatDate (timestamp) {
-  return new Date(timestamp * 1000)
-    .toLocaleDateString("en-GB", {
-      hour: 'numeric' ,
-      minute: 'numeric'
-    })
-}
+import Loading from './Loading'
+import PostsList from './PostsList'
 
 function fetchReducer(state, action) {
   if(action.type === 'loading') {
@@ -53,29 +47,13 @@ export default function Posts ({type}) {
   }, [type])
 
   if (state.loading === true) {
-    return <p>Loading...</p>
+    return <Loading />
   }
 
   if (state.error === true) {
     return <p>{state.error}</p>
   }
 
-  return (
-    <ul>
-      {state.posts.map((post) => {
-        return (
-          <li key={post.id} className='post'>
-            <a className='postLink' href={post.url}>{post.title}</a>
-            <div className='meta-info-light'>
-              <span>by <a href={post.by}>{post.by}</a></span>
-              <span> on {formatDate(post.time)}</span>
-              {typeof post.descendants === 'number' && (
-                <span> with {post.descendants} comments </span>
-              )}
-            </div>
-          </li>
-        )
-      })}
-    </ul>
-  )
+  return <PostsList posts={state.posts}/>
+
 }
