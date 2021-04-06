@@ -1,12 +1,27 @@
 const api = `https://hacker-news.firebaseio.com/v0`
 const json = '.json?print=pretty'
 
+function removeDead (posts) {
+  return posts.filter(({ dead }) => dead !== true)
+}
+
+function removeDeleted (posts) {
+  return posts.filter(({ deleted }) => deleted !== true)
+}
+
+function onlyPosts (posts) {
+  return posts.filter(({ type }) => type === 'story')
+}
+
+function onlyComments (posts) {
+  return posts.filter(({ type }) => type === 'comment')
+}
+
+
 export function fetchItem(id) {
   return fetch(`${api}/item/${id}${json}`)
     .then((res) => res.json())
 }
-
-// https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty
 
 
 export function fetchMainPosts (type) {
@@ -20,4 +35,15 @@ export function fetchMainPosts (type) {
       return ids.slice(0, 50)
     })
     .then((ids) => Promise.all(ids.map(fetchItem)))
+    .then((posts) => removeDeleted(onlyPosts(removeDead(posts))))
+}
+
+export function fetchUser(id) {
+  return fetch(`${api}/user/${id}${json}`)
+    .then((res) => res.json())
+}
+
+export function fetchPosts(ids) {
+  return Promise.all(ids.map(fetchItem))
+  .then((posts) => removeDeleted(onlyPosts(removeDead(posts))))
 }

@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import {Switch, Route,
   BrowserRouter as Router} from "react-router-dom";
 import Posts from './components/Posts'; 
+import User from './components/User'; 
 
 function App () {
   const [theme, setTheme] = React.useState('light')
@@ -20,6 +21,7 @@ function App () {
             <Switch>
               <Route exact path="/" render={() => <Posts type='top' />} />
               <Route exact path="/new" render={() => <Posts type='new' />} />
+              <Route path="/user" component={User} />
             </Switch>
           </div>
         </div>

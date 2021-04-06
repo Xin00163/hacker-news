@@ -22,7 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "prop-types": "^15.7.2",
-    "query-string": "^6.4.0",
+    "query-string": "^6.14.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.2.0"

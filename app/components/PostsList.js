@@ -7,7 +7,7 @@ export default function PostsList ({posts}) {
       {posts.map((post) => {
         return (
           <li key={post.id} className='post'>
-            <a className='postLink' href={post.url}>{post.title}</a>
+            <a className='link' href={post.url}>{post.title}</a>
             <PostMetaInfo
               by={post.by}
               time={post.time}
