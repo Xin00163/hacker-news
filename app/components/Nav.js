@@ -6,18 +6,13 @@ const activeStyle = {
   color: "rgb(187, 46, 31)",
 };
 
-export default function Nav({toggleTheme}) {
-  const theme = React.useContext(ThemeContext)
+export default function Nav({ toggleTheme }) {
+  const theme = React.useContext(ThemeContext);
   return (
     <nav className="row space-between">
       <ul className="row nav">
         <li>
-          <NavLink
-            to="/"
-            exact
-            activeStyle={activeStyle}
-            className="nav-link"
-          >
+          <NavLink to="/" exact activeStyle={activeStyle} className="nav-link">
             Top
           </NavLink>
         </li>
