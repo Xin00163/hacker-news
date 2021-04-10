@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ThemeContext from "../contexts/theme";
 import formatDate from "../utils/formatDate";
+import {Post} from "../utils/api";
 
-export default function PostMetaInfo({ by, time, descendants, id }) {
+export default function PostMetaInfo({ by, time, descendants, id }: Pick<Post, "by" | "time" | "descendants" | "id">){
   const theme = React.useContext(ThemeContext);
   return (
     <div className={`meta-info-${theme}`}>

@@ -1,11 +1,25 @@
 import React from "react";
 import queryString from "query-string";
-import { fetchPosts, fetchUser } from "../utils/api";
+import { fetchPosts, fetchUser, User, Post } from "../utils/api";
 import Loading from "./Loading";
 import PostsList from "./PostsList";
 import formatDate from "../utils/formatDate";
 
-function fetchReducer(state, action) {
+interface UserState {
+  user: User | null,
+  error: string | null,
+  loadingUser: boolean,
+  loadingPosts: boolean,
+  posts: Post[] | null,
+}
+
+type UserAction = 
+| { type: "loading" }
+| { type: "user", user: User }
+| { type: "posts", posts: Post[]}
+| { type: "error", error: string }
+
+function fetchReducer(state: UserState, action: UserAction) {
   if (action.type === "loading") {
     return {
       ...state,
@@ -37,8 +51,8 @@ function fetchReducer(state, action) {
   }
 }
 
-export default function User({ location }) {
-  const { id } = queryString.parse(location.search);
+export default function UserComponent({ location }: {location: {search: string}}) {
+  const { id } = queryString.parse(location.search) as {id: string};
   const [state, dispatch] = React.useReducer(fetchReducer, {
     user: null,
     error: null,
@@ -67,9 +81,10 @@ export default function User({ location }) {
 
   return (
     <>
-      {loadingUser === true ? (
+      {loadingUser === true && (
         <Loading text="Loading user" />
-      ) : (
+      )}
+      {user && (
         <React.Fragment>
           <h1 className="header">{user.id}</h1>
           <div className="meta-info-light">
@@ -82,9 +97,10 @@ export default function User({ location }) {
           </div>
         </React.Fragment>
       )}
-      {loadingPosts === true ? (
+      {loadingPosts === true && (
         loadingUser === false && <Loading text="Loading posts" />
-      ) : (
+      )} 
+      {posts  && (
         <React.Fragment>
           <h2>Posts</h2>
           <PostsList posts={posts} />

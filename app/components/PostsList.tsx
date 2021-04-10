@@ -1,8 +1,9 @@
 import React from "react";
 import PostMetaInfo from "./PostMetaInfo";
 import Title from "./Title";
+import {Post} from "../utils/api";
 
-export default function PostsList({ posts }) {
+export default function PostsList({ posts } : {posts: Post[]}) {
   return (
     <ul>
       {posts.map((post) => {

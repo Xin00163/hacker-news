@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 const styles = {
   content: {
     fontSize: "35px",
@@ -7,7 +7,7 @@ const styles = {
     right: "0",
     marginTop: "20px",
     textAlign: "center",
-  },
+  } as CSSProperties
 };
 
 export default function Loading({ text = "Loading", speed = 300 }) {

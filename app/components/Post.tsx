@@ -3,10 +3,24 @@ import PostMetaInfo from "./PostMetaInfo";
 import queryString from "query-string";
 import Title from "./Title";
 import Loading from "./Loading";
-import { fetchItem, fetchComments } from "../utils/api";
+import { fetchItem, fetchComments, Post} from "../utils/api";
 import Comment from "./Comment";
 
-function fetchReducer(state, action) {
+interface PostState {
+  post: null | Post,
+  error: null | string,
+  comments: null | Post[],
+  loadingPost: boolean,
+  loadingComments: boolean,
+}
+
+type PostAction = 
+  | { type: "loading"}
+  | { type: "post"; post: Post }
+  | { type: "comments"; comments: Post[] }
+  | { type: "error"; error: string }
+
+function fetchReducer(state: PostState, action: PostAction) {
   if (action.type === "loading") {
     return {
       ...state,
@@ -35,12 +49,12 @@ function fetchReducer(state, action) {
       loadingComments: false,
     };
   } else {
-    throw new error("That action type is not supported");
+    throw new Error("That action type is not supported");
   }
 }
 
-export default function Post({ location }) {
-  const { id } = queryString.parse(location.search);
+export default function PostComponent({ location }: {location: {search: string}}) {
+  const { id } = queryString.parse(location.search) as {id: string}
   const [state, dispatch] = React.useReducer(fetchReducer, {
     post: null,
     loadingPost: true,
@@ -69,10 +83,10 @@ export default function Post({ location }) {
 
   return (
     <React.Fragment>
-      {loadingPost === true ? (
+      {loadingPost === true && (
         <Loading text="Loading post" />
-      ) : (
-        <React.Fragment>
+      )}
+      {post && (<React.Fragment>
           <h2 className="header">
             <Title url={post.url} id={post.id} title={post.title} />
           </h2>
@@ -84,10 +98,11 @@ export default function Post({ location }) {
           />
         </React.Fragment>
       )}
-      {loadingComments === true ? (
+      {loadingComments === true && (
         loadingPost === false && <Loading text="Loading post comments" />
-      ) : (
-        <React.Fragment>
+      )}
+      {comments && (
+          <React.Fragment>
           {comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}

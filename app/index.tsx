@@ -5,8 +5,8 @@ import { ThemeProvider } from "./contexts/theme";
 import Nav from "./components/Nav";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import Posts from "./components/Posts";
-import User from "./components/User";
-import Post from "./components/Post";
+import UserComponent from "./components/User";
+import PostComponent from "./components/Post";
 
 function App() {
   const [theme, setTheme] = React.useState("light");
@@ -22,8 +22,8 @@ function App() {
             <Switch>
               <Route exact path="/" render={() => <Posts type="top" />} />
               <Route exact path="/new" render={() => <Posts type="new" />} />
-              <Route path="/user" component={User} />
-              <Route path="/post" component={Post} />
+              <Route path="/user" component={UserComponent} />
+              <Route path="/post" component={PostComponent} />
             </Switch>
           </div>
         </div>

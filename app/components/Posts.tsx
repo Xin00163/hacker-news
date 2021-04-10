@@ -1,9 +1,20 @@
 import React, { useReducer } from "react";
-import { fetchMainPosts } from "../utils/api";
+import { fetchMainPosts, Post, PostType } from "../utils/api";
 import Loading from "./Loading";
-import PostsList from "./PostsList";
+import PostsList from "./PostsList"
 
-function fetchReducer(state, action) {
+interface PostsState {
+  posts: null | Post[],
+  error: null | string,
+  loading: boolean
+}
+
+type PostsAction = 
+  | { type: "loading"}
+  | { type: "success"; posts: Post[] }
+  | { type: "error"; error: string }
+
+function fetchReducer(state: PostsState, action: PostsAction) {
   if (action.type === "loading") {
     return {
       posts: null,
@@ -32,7 +43,7 @@ const initialState = {
   loading: true,
 };
 
-export default function Posts({ type }) {
+export default function Posts({ type }: {type: PostType}){
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
   React.useEffect(() => {
@@ -43,11 +54,11 @@ export default function Posts({ type }) {
       .catch((error) => dispatch({ type: "error", error: error }));
   }, [type]);
 
-  if (state.loading === true) {
+  if (state.loading === true || !state.posts) {
     return <Loading />;
   }
 
-  if (state.error === true) {
+  if (state.error) {
     return <p>{state.error}</p>;
   }
 
