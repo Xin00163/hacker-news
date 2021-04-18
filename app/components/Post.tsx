@@ -86,7 +86,8 @@ export default function PostComponent({ location }: {location: {search: string}}
       {loadingPost === true && (
         <Loading text="Loading post" />
       )}
-      {post && (<React.Fragment>
+      {post && (
+        <React.Fragment>
           <h2 className="header">
             <Title url={post.url} id={post.id} title={post.title} />
           </h2>
@@ -102,7 +103,7 @@ export default function PostComponent({ location }: {location: {search: string}}
         loadingPost === false && <Loading text="Loading post comments" />
       )}
       {comments && (
-          <React.Fragment>
+        <React.Fragment>
           {comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
