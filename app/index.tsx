@@ -24,6 +24,7 @@ function App() {
               <Route exact path="/new" render={() => <Posts type="new" />} />
               <Route path="/user" component={UserComponent} />
               <Route path="/post" component={PostComponent} />
+              <Route path="*" render={() => <h1>404</h1>}/>
             </Switch>
           </div>
         </div>
