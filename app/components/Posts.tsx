@@ -1,8 +1,8 @@
 import React from "react";
-import { fetchMainPosts, Post, PostType } from "../utils/api";
+import { fetchMainPosts, PostType } from "../utils/api";
 import Loading from "./Loading";
 import PostsList from "./PostsList";
-import fetchReducer from './utils';
+import fetchReducer from '../utils/fetchReducer';
 
 
 export default function Posts({ type }: {type: PostType}){

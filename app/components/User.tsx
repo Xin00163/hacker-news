@@ -4,7 +4,7 @@ import { fetchPosts, fetchUser, User, Post } from "../utils/api";
 import Loading from "./Loading";
 import PostsList from "./PostsList";
 import formatDate from "../utils/formatDate";
-import fetchReducer from './utils';
+import fetchReducer from '../utils/fetchReducer';
 
 export default function UserComponent({ location }: {location: {search: string}}) {
   const { id } = queryString.parse(location.search) as {id: string};

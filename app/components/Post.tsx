@@ -3,55 +3,9 @@ import PostMetaInfo from "./PostMetaInfo";
 import queryString from "query-string";
 import Title from "./Title";
 import Loading from "./Loading";
-import { fetchItem, fetchComments, Post} from "../utils/api";
+import { fetchItem, fetchComments} from "../utils/api";
 import Comment from "./Comment";
-
-interface PostState {
-  post: null | Post,
-  error: null | string,
-  comments: null | Post[],
-  loadingPost: boolean,
-  loadingComments: boolean,
-}
-
-type PostAction = 
-  | { type: "loading"}
-  | { type: "post"; post: Post }
-  | { type: "comments"; comments: Post[] }
-  | { type: "error"; error: string }
-
-function fetchReducer(state: PostState, action: PostAction) {
-  if (action.type === "loading") {
-    return {
-      ...state,
-      loadingPost: true,
-      loadingComments: true,
-    };
-  } else if (action.type === "post") {
-    return {
-      ...state,
-      post: action.post,
-      loadingPost: false,
-      error: null,
-    };
-  } else if (action.type === "comments") {
-    return {
-      ...state,
-      comments: action.comments,
-      loadingComments: false,
-      error: null,
-    };
-  } else if (action.type === "error") {
-    return {
-      ...state,
-      error: action.error,
-      loadingPost: false,
-      loadingComments: false,
-    };
-  } else {
-    throw new Error("That action type is not supported");
-  }
-}
+import fetchReducer from '../utils/fetchReducer';
 
 export default function PostComponent({ location }: {location: {search: string}}) {
   const { id } = queryString.parse(location.search) as {id: string}
@@ -66,7 +20,7 @@ export default function PostComponent({ location }: {location: {search: string}}
   const { post, loadingPost, loadingComments, comments, error } = state;
 
   React.useEffect(() => {
-    dispatch({ type: "loading" });
+    dispatch({ type: "fetchingPost" });
 
     fetchItem(id)
       .then((post) => {
