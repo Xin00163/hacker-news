@@ -4,52 +4,7 @@ import { fetchPosts, fetchUser, User, Post } from "../utils/api";
 import Loading from "./Loading";
 import PostsList from "./PostsList";
 import formatDate from "../utils/formatDate";
-
-interface UserState {
-  user: User | null,
-  error: string | null,
-  loadingUser: boolean,
-  loadingPosts: boolean,
-  posts: Post[] | null,
-}
-
-type UserAction = 
-| { type: "loading" }
-| { type: "user", user: User }
-| { type: "posts", posts: Post[]}
-| { type: "error", error: string }
-
-function fetchReducer(state: UserState, action: UserAction) {
-  if (action.type === "loading") {
-    return {
-      ...state,
-      loadingUser: true,
-      loadingPosts: true,
-    };
-  } else if (action.type === "user") {
-    return {
-      ...state,
-      user: action.user,
-      loadingUser: false,
-    };
-  } else if (action.type === "posts") {
-    return {
-      ...state,
-      posts: action.posts,
-      loadingPosts: false,
-      error: null,
-    };
-  } else if (action.type === "error") {
-    return {
-      ...state,
-      error: action.error,
-      loadingUser: false,
-      loadingPosts: false,
-    };
-  } else {
-    throw new Error("That action type is not supported.");
-  }
-}
+import fetchReducer from './utils';
 
 export default function UserComponent({ location }: {location: {search: string}}) {
   const { id } = queryString.parse(location.search) as {id: string};
