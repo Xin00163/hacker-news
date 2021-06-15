@@ -1,34 +1,20 @@
 import React from "react";
-import { fetchMainPosts, PostType } from "../utils/api";
+import {PostType } from "../utils/api";
 import Loading from "./Loading";
 import PostsList from "./PostsList";
-import fetchReducer from '../utils/fetchReducer';
+import { useFetchPosts } from "../utils/useFetchData";
 
 
 export default function Posts({ type }: {type: PostType}){
-  const [state, dispatch] = React.useReducer(fetchReducer, {
-    user: null,
-    error: null,
-    loadingUser: false,
-    loadingPosts: true,
-    posts: null,
-  });
+  const{ loadingPosts, posts, error} = useFetchPosts(type)
 
-  React.useEffect(() => {
-    dispatch({ type: "loading" });
-
-    fetchMainPosts(type)
-      .then((posts) => dispatch({ type: "posts", posts }))
-      .catch((error) => dispatch({ type: "error", error: error }));
-  }, [type]);
-
-  if (state.loadingPosts === true || !state.posts) {
+  if (loadingPosts === true || !posts) {
     return <Loading />;
   }
 
-  if (state.error) {
-    return <p>{state.error}</p>;
+  if (error) {
+    return <p>{error}</p>;
   }
 
-  return <PostsList posts={state.posts} />;
+  return <PostsList posts={posts} />;
 }

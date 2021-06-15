@@ -1,35 +1,13 @@
 import React from "react";
 import PostMetaInfo from "./PostMetaInfo";
-import queryString from "query-string";
 import Title from "./Title";
 import Loading from "./Loading";
-import { fetchItem, fetchComments} from "../utils/api";
 import Comment from "./Comment";
-import fetchReducer from '../utils/fetchReducer';
+import { useFetchPost } from "../utils/useFetchData";
 
 export default function PostComponent({ location }: {location: {search: string}}) {
-  const { id } = queryString.parse(location.search) as {id: string}
-  const [state, dispatch] = React.useReducer(fetchReducer, {
-    post: null,
-    loadingPost: true,
-    comments: null,
-    loadingComments: true,
-    error: null,
-  });
-
-  const { post, loadingPost, loadingComments, comments, error } = state;
-
-  React.useEffect(() => {
-    dispatch({ type: "fetchingPost" });
-
-    fetchItem(id)
-      .then((post) => {
-        dispatch({ type: "post", post });
-        return fetchComments(post.kids || []);
-      })
-      .then((comments) => dispatch({ type: "comments", comments }))
-      .catch(({ error }) => dispatch({ type: "error", error }));
-  }, [id]);
+  
+  const { post, loadingPost, loadingComments, comments, error } = useFetchPost(location);
 
   if (error) {
     return <p>{error}</p>;
